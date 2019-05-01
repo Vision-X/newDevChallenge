@@ -10,6 +10,15 @@ const AWS        = require('aws-sdk');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const { LOCATIONS_TABLE, IS_OFFLINE } = process.env;
+
+const docClient = IS_OFFLINE ?
+  new AWS.DynamoDB.DocumentClient({
+    region: 'localhost',
+    endpoint: 'http://localhost:3000'
+  }) :
+  new AWS.DynamoDB.DocumentClient();
+
 const initialLocations = [
   {
     id: 'id1',
@@ -33,6 +42,10 @@ const initialLocations = [
 
 app.locals.idIndex = 3;
 app.locals.locations = initialLocations;
+
+app.get('/', function(req, res) {
+  res.send({ title: "Locations API Entry Endpoint" })
+});
 
 app.get('/locations', (req, res) => res.send({ locations: app.locals.locations }));
 
