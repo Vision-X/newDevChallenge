@@ -47,6 +47,90 @@ app.get('/', function(req, res) {
   res.send({ title: "Locations API Entry Endpoint" })
 });
 
+app.get('/seeds', function(req, res) {
+  console.log("Seeding initial locations... stand by...");
+  // for (let i = 0; i < initialLocations.length; i++) {
+  //   let { id, name, lat, lng } = initialLocations[i];
+  //   let params = {
+  //     TableName: "Locations",
+  //     Item: {
+  //       "id": id,
+  //       "name": name,
+  //       "lat": lat,
+  //       "lng": lng
+  //     }
+  //   };
+  //
+  //   docClient.put(params, function(err, data) {
+  //     if (err) console.log(JSON.stringify(err, null, 2))
+  //     else     console.log(`PutItem Successful: ${name} ${id}`)
+  //   })
+  // };
+  res.send({ title: "Hullo!" })
+
+})
+
+//GET INITIAL LOCATIONS
+app.get('/initial', function(req, res) {
+  console.log("GET route 'initial' running...");
+  let params = {
+    TableName: "Locations",
+    ProjectedExpression: "#id, #name, #lat, #lng",
+    ExpressionAttributeNames: {
+      "#id": "id",
+      "#name": "name",
+      "#lat": "lat",
+      "#lng": "lng"
+    }
+  };
+
+  console.log(params);
+
+  docClient.scan(params, function(err, result) {
+  if (err) {
+    res.status(400).json({ error: 'Error retrieving locations'})
+  }
+
+  const { Items: locations } = result;
+
+  console.log(locations);
+
+  res.json({ locations })
+})
+
+// POST LOCATION
+});
+
+app.post('/add', function(req, res) {
+  console.log("request body", JSON.stringify(req.body, null, 2));
+
+  const { id, name, lat, lng } = req.body;
+
+  var params = {
+    TableName: "Locations",
+    Item: {
+      "id": id,
+      "name": name,
+      "lat": lat,
+      "lng": lng
+    }
+  };
+
+  console.log("Adding new item");
+  docClient.put(params, function(err, data) {
+    if (err) {
+      console.error("Unable to add location",
+                    name,
+                    ". Error JSON:",
+                    JSON.stringify(err, null, 2));
+    } else {
+      console.log("PutItem succeeded:", name);
+      res.json( params.Item )
+    }
+  })
+
+});
+
 app.get('/locations', (req, res) => res.send({ locations: app.locals.locations }));
 
 // app.use(express.static(path.resolve(__dirname, '..', 'build')));

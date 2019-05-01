@@ -46,14 +46,22 @@ functions:
           path: /
           method: GET
           cors: true
-      # - http:
-      #     path: /initialLocations
-      #     method: GET
-      #     cors: true
       - http:
-          path: /{proxy+}
+          path: /initial
+          method: GET
+          cors: true
+      - http:
+          path: /seeds
           method: ANY
           cors: true
+      - http:
+          path: /add
+          method: ANY
+          cors: true
+      # - http:
+      #     path: /{proxy+}
+      #     method: ANY
+      #     cors: true
 
 
 resources:
