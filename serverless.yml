@@ -39,17 +39,17 @@ provider:
     LOCATIONS_TABLE: ${self:custom.tableName}
 
 functions:
-  app:
-    handler: app.handler
+  server:
+    handler: server/server.handler
     events:
       - http:
           path: /
           method: GET
           cors: true
-      - http:
-          path: /initialLocations
-          method: GET
-          cors: true      
+      # - http:
+      #     path: /initialLocations
+      #     method: GET
+      #     cors: true
       - http:
           path: /{proxy+}
           method: ANY
