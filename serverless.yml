@@ -85,7 +85,7 @@ package:
     - .gitignore
     - README.md
     - .env
-    - *.png
+    - '*.{png}'
     - '*.{ts,js,json,yml}' # All other configs
 
   include:
