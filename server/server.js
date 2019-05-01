@@ -1,7 +1,11 @@
-const express = require('express');
+const express    = require('express');
 const bodyParser = require('body-parser');
-const path = require('path');
-const app = express();
+const path       = require('path');
+const app        = express();
+const router     = express.Router();
+// SERVERLESS / AWS
+const serverless = require('serverless-http');
+const AWS        = require('aws-sdk');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

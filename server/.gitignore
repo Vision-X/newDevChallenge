@@ -1,9 +1,0 @@
-# package directories
-node_modules/
-# Serverless directories
-.serverless/
-.dynamodb
-# files
-.DS_Store
-.env
-env.yml
