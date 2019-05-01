@@ -73,3 +73,20 @@ resources:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
         TableName: ${self:custom.tableName}
+
+package:
+  # Excludes so IF/WHEN we deploy it will only deploy the node/express
+  # and DynamoDB files we care about
+  exclude:
+    - public/**
+    - src/**
+    - DockerFile
+    - .dockerignore
+    - .gitignore
+    - README.md
+    - .env
+    - *.png
+    - '*.{ts,js,json,yml}' # All other configs
+
+  include:
+    - server/**
